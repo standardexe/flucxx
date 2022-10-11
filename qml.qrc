@@ -1,0 +1,8 @@
+<RCC>
+    <qresource prefix="/">
+        <file>TodoEditor.qml</file>
+        <file>Navigator.qml</file>
+        <file>Main.qml</file>
+        <file>About.qml</file>
+    </qresource>
+</RCC>
