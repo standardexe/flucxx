@@ -5,21 +5,11 @@
 #include <QMetaProperty>
 #include "flucxx/middleware.hpp"
 #include <QtConcurrent/QtConcurrent>
-#include "asyncfuture.h"
 
 class LoggingMiddleware : public Middleware {
 public:
     QFuture<QVariant> process(Action* action, std::function<QFuture<QVariant>(Action*)> next) final {
         dumpProperties(action);
-
-        if (action->id() == "sleep") {
-            QFuture<QVariant> x = QtConcurrent::run([]() -> QVariant { QThread::msleep(2000); return QVariant::fromValue(1234); });
-            AsyncFuture::observe(x).onCompleted([=]() {
-                qDebug() << "C++ Observe result: " << x.result();
-            });
-            return x;
-        }
-
         return next(action);
     }
 
