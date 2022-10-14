@@ -9,6 +9,8 @@
 #include "stores/NavigationStore.hpp"
 #include "actions/QmlActions.hpp"
 #include "middlewares/LoggingMiddleware.hpp"
+#include "middlewares/SleepMiddleware.hpp"
+#include "middlewares/DialogMiddleware.hpp"
 
 #include "qffuture.h"
 
@@ -25,10 +27,14 @@ int main(int argc, char *argv[])
     auto dispatcher         = QSharedPointer<Dispatcher>::create();
     auto navigationStore    = QSharedPointer<NavigationStore>::create();
     auto logger             = QSharedPointer<LoggingMiddleware>::create();
+    auto sleepMw            = QSharedPointer<SleepMiddleware>::create();
+    auto dialogmw           = QSharedPointer<DialogMiddleware>::create();
 
     dispatcher->addStore(mainStore);
     dispatcher->addStore(navigationStore);
     dispatcher->addMiddleware(logger);
+    dispatcher->addMiddleware(sleepMw);
+    dispatcher->addMiddleware(dialogmw);
 
     qmlRegisterUncreatableType<NavigationStore>("NavigationStore", 1, 0, "NavigationStore", "");
     qmlRegisterUncreatableType<Dispatcher>("Dispatcher", 1, 0, "Dispatcher", "");
@@ -41,6 +47,9 @@ int main(int argc, char *argv[])
     qmlRegisterSingletonInstance("Actions", 1, 0, "Actions", new QmlActions {});
 
     qRegisterMetaType<ActionSleep*>();
+
+    qRegisterMetaType<ActionShowDialog*>();
+    qRegisterMetaType<ActionCloseDialog*>();
 
     qRegisterMetaType<ActionTodoToggleDone*>();
     qRegisterMetaType<ActionNavigatePush*>();

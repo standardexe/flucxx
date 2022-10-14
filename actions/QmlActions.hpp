@@ -3,6 +3,7 @@
 
 #include "actions/TodoActions.hpp"
 #include "actions/NavigationActions.hpp"
+#include "actions/DialogActions.hpp"
 
 class QmlActions : public QObject {
     Q_OBJECT
@@ -17,6 +18,9 @@ public:
     Q_INVOKABLE ActionNavigatePop* navigateBack() { return new ActionNavigatePop(); }
 
     Q_INVOKABLE ActionSleep* sleep(int ms) { return new ActionSleep(ms); }
+
+    Q_INVOKABLE ActionShowDialog* showDialog(QString prompt) { return new ActionShowDialog(prompt); }
+    Q_INVOKABLE ActionCloseDialog* closeDialog(bool result) { return new ActionCloseDialog(result); }
 };
 
 #endif // QML_ACTIONS_HPP

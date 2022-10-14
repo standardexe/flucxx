@@ -7,7 +7,7 @@
 struct ActionSleep : public ActionWithMembers<ActionSleep, int> {
     static constexpr const char* ID = "sleep";
 
-    ACTION_PROPERTY(0, int, sleep);
+    ACTION_PROPERTY(0, int, durationMs);
 
     ActionSleep(int ms) : ActionWithMembers(ms) {}
 

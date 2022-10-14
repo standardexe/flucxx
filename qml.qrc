@@ -4,5 +4,6 @@
         <file>Navigator.qml</file>
         <file>Main.qml</file>
         <file>About.qml</file>
+        <file>Dialog.qml</file>
     </qresource>
 </RCC>

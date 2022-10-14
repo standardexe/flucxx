@@ -99,10 +99,27 @@ Item {
         Button {
             text: "Sleep"
             onClicked: {
-                let response = dispatch(Actions.sleep(1000))
+                let response = dispatch(Actions.sleep(100))
                 Future.promise(response).then(value => console.log("Response from dispatch:", value))
             }
         }
+
+        Button {
+            text: "Show dialog"
+            onClicked: {
+                let result = dispatch(Actions.showDialog("Ein Prompt"))
+                Future.promise(result).then(value => console.log("Dialog response:", value))
+            }
+        }
+
     }
 
+    Dialog {
+        anchors.centerIn: root
+        visible: MainStore.dialogVisible
+        prompt: MainStore.dialogPrompt
+
+        onCancel: dispatch(Actions.closeDialog(false))
+        onOk: dispatch(Actions.closeDialog(true))
+    }
 }

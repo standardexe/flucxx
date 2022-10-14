@@ -1,1 +1,1 @@
-target_sources(qtquicktest PRIVATE LoggingMiddleware.hpp SleepMiddleware.hpp)
+target_sources(qtquicktest PRIVATE LoggingMiddleware.hpp SleepMiddleware.hpp DialogMiddleware.hpp)
