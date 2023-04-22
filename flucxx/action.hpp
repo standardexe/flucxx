@@ -26,6 +26,24 @@
     Q_PROPERTY(type name READ name)               \
     type name() const { return get<index>(); }
 
+template<typename T>
+struct CallbackDefinition {
+  using type = std::function<void(T)>;
+};
+
+template<>
+struct CallbackDefinition<void> {
+  using type = std::function<void()>;
+};
+
+template<typename T>
+using Callback = typename CallbackDefinition<T>::type;
+
+Q_DECLARE_METATYPE(Callback<bool>)
+Q_DECLARE_METATYPE(Callback<int>)
+Q_DECLARE_METATYPE(Callback<QString>)
+Q_DECLARE_METATYPE(Callback<void>)
+
 
 class Action : public QObject {
 public:

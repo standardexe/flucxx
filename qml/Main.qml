@@ -14,7 +14,7 @@ Window {
     title: qsTr("Hello World")
 
     function dispatch(action) {
-        return Future.promise(action.dispatch(Dispatcher))
+        action.dispatch(Dispatcher)
     }
 
     Component.onCompleted: {

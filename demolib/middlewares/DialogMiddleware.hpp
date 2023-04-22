@@ -11,25 +11,20 @@
 
 class DialogMiddleware : public Middleware {
 public:
-    QFuture<QVariant> process(Action* action, std::function<QFuture<QVariant>(Action*)> next) final {
+    void process(Action* action, std::function<void(Action*)> next) final {
         if (auto showActionDialog = action->as<ActionShowDialog>(); showActionDialog) {
-            mFuture = AsyncFuture::deferred<QVariant>();
-            next(action);
-            return mFuture->future();
+            mDoneCallback = showActionDialog->onDone();
         }
 
         if (auto closeActionDialog = action->as<ActionCloseDialog>(); closeActionDialog) {
-            if (mFuture.has_value()) {
-                mFuture.value().complete(closeActionDialog->result());
-                mFuture.reset();
-            }
+            if (mDoneCallback) mDoneCallback(closeActionDialog->result());
         }
 
-        return next(action);
+        next(action);
     }
 
 private:
-    std::optional<AsyncFuture::Deferred<QVariant>> mFuture;
+    std::function<void(bool)> mDoneCallback;
 };
 
 #endif // DIALOGMIDDLEWARE_H

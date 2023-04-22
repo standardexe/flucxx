@@ -5,13 +5,14 @@
 #include "flucxx/action.hpp"
 #include "flucxx/dispatcher.hpp"
 
-struct ActionShowDialog : public ActionWithMembers<ActionShowDialog, QString> {
+struct ActionShowDialog : public ActionWithMembers<ActionShowDialog, QString, Callback<bool>> {
     Q_OBJECT
 public:
     static constexpr const char* ID = "dialog/show";
     ACTION_PROPERTY(0, QString, prompt);
-    ActionShowDialog(QString prompt) : ActionWithMembers(prompt) {}
-    Q_INVOKABLE QFuture<QVariant> dispatch(Dispatcher* dispatcher) { return dispatcher->dispatch(this); }
+    ACTION_PROPERTY(1, Callback<bool>, onDone);
+    ActionShowDialog(QString prompt, Callback<bool> onDone = {}) : ActionWithMembers(prompt, onDone) {}
+    Q_INVOKABLE void dispatch(Dispatcher* dispatcher) { dispatcher->dispatch(this); }
 };
 REGISTER_METATYPE(ActionShowDialog)
 

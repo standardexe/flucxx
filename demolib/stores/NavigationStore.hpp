@@ -13,7 +13,7 @@ public:
 
     NavigationStore() : Store("NavigationStore") {}
 
-    QFuture<QVariant> process(Action* action, std::function<QFuture<QVariant>(Action*)> next) final {
+    void process(Action* action, std::function<void(Action*)> next) final {
         if (auto navigateAction = action->as<ActionNavigatePush>(); navigateAction) {
             mScreens.push(navigateAction->url());
             screensChanged();
@@ -23,7 +23,7 @@ public:
             screensChanged();
         }
 
-        return next(action);
+        next(action);
     }
 
     NavigationModel* screens() { return &mScreens; }

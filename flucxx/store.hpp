@@ -12,7 +12,7 @@ class Store : public QObject, public QEnableSharedFromThis<Store> {
 public:
     Store(QString name) : QObject(nullptr), mName(name) {}
 
-    Q_INVOKABLE virtual QFuture<QVariant> process(Action* action, std::function<QFuture<QVariant>(Action* action)> next) = 0;
+    Q_INVOKABLE virtual void process(Action* action, std::function<void(Action* action)> next) = 0;
 
 private:
     QString mName;

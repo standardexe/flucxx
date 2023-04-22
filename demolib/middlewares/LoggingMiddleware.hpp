@@ -8,9 +8,9 @@
 
 class LoggingMiddleware : public Middleware {
 public:
-    QFuture<QVariant> process(Action* action, std::function<QFuture<QVariant>(Action*)> next) final {
+    void process(Action* action, std::function<void(Action*)> next) final {
         dumpProperties(action);
-        return next(action);
+        next(action);
     }
 
     static void dumpProperties(Action* action) {

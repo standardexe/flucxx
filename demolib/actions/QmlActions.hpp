@@ -17,9 +17,17 @@ public:
     Q_INVOKABLE ActionNavigatePush* navigateTo(QString url) { return new ActionNavigatePush(url); }
     Q_INVOKABLE ActionNavigatePop* navigateBack() { return new ActionNavigatePop(); }
 
-    Q_INVOKABLE ActionSleep* sleep(int ms) { return new ActionSleep(ms); }
+    Q_INVOKABLE ActionSleep* sleep(int ms, QJSValue callback) {
+        return new ActionSleep(ms, [callback]() mutable {
+            callback.call();
+        }); }
 
-    Q_INVOKABLE ActionShowDialog* showDialog(QString prompt) { return new ActionShowDialog(prompt); }
+    Q_INVOKABLE ActionShowDialog* showDialog(QString prompt, QJSValue callback) {
+        return new ActionShowDialog(prompt, [callback](bool result) mutable {
+            callback.call({result});
+        });
+    }
+
     Q_INVOKABLE ActionCloseDialog* closeDialog(bool result) { return new ActionCloseDialog(result); }
 };
 

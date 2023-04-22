@@ -99,18 +99,14 @@ Item {
 
         Button {
             text: "Sleep"
-            onClicked: {
-                dispatch(QmlActions.sleep(100))
-                  .then(value => console.log("Response from dispatch:", value))
-            }
+            onClicked: dispatch(QmlActions.sleep(100,
+                                                 () => console.log("Sleep done.")))
         }
 
         Button {
             text: "Show dialog"
-            onClicked: {
-                dispatch(QmlActions.showDialog("Ein Prompt"))
-                  .then(result => console.log("Dialog response:", result))
-            }
+            onClicked: dispatch(QmlActions.showDialog("Ein Prompt",
+                                                      result => console.log("Callback for show dialog! Result:", result)))
         }
 
     }

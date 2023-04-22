@@ -11,7 +11,7 @@ class Middleware : public QObject, public QEnableSharedFromThis<Middleware> {
 public:
     Middleware() : QObject(nullptr) {}
 
-    virtual QFuture<QVariant> process(Action* action, std::function<QFuture<QVariant>(Action*)> next) = 0;
+    virtual void process(Action* action, std::function<void(Action*)> next) = 0;
 
 };
 

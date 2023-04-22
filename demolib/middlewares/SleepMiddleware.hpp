@@ -10,7 +10,7 @@
 
 class SleepMiddleware : public Middleware {
 public:
-    QFuture<QVariant> process(Action* action, std::function<QFuture<QVariant>(Action*)> next) final {
+    void process(Action* action, std::function<void(Action*)> next) final {
         if (action->id() == "sleep") {
             ActionSleep* sleepAction = static_cast<ActionSleep*>(action);
 
@@ -19,14 +19,10 @@ public:
                 return QVariant::fromValue(1234);
             });
 
-            AsyncFuture::observe(sleepFuture).onCompleted([=]() {
-                qDebug() << "C++ Observe result: " << sleepFuture.result();
-            });
-
-            return sleepFuture;
+            AsyncFuture::observe(sleepFuture).onCompleted(sleepAction->onDone());
         }
 
-        return next(action);
+        next(action);
     }
 
 };

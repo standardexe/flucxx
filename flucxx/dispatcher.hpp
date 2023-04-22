@@ -21,27 +21,25 @@ public:
         mMiddlewares.push_back(middleware);
     }
 
-    Q_INVOKABLE QFuture<QVariant> dispatch(Action* action) {
-        return generateNext(mMiddlewares.begin())(action);
+    Q_INVOKABLE void dispatch(Action* action) {
+        generateNext(mMiddlewares.begin())(action);
     }
 
 private:
-    std::function<QFuture<QVariant>(Action*)> generateNext(QList<QSharedPointer<Middleware>>::Iterator it) {
-        return [this, it](Action* action) -> QFuture<QVariant> {
+    std::function<void(Action*)> generateNext(QList<QSharedPointer<Middleware>>::Iterator it) {
+        return [this, it](Action* action) {
             if (it == mMiddlewares.end()) {
-                return generateNext(mStores.begin())(action);
+                generateNext(mStores.begin())(action);
             } else {
-                return it->get()->process(action, generateNext(it + 1));
+                it->get()->process(action, generateNext(it + 1));
             }
         };
     }
 
-    std::function<QFuture<QVariant>(Action*)> generateNext(QList<QSharedPointer<Store>>::Iterator it) {
-        return [this, it](Action* action) -> QFuture<QVariant> {
-            if (it == mStores.end()) {
-                return {};
-            } else {
-                return it->get()->process(action, generateNext(it + 1));
+    std::function<void(Action*)> generateNext(QList<QSharedPointer<Store>>::Iterator it) {
+        return [this, it](Action* action) {
+            if (it != mStores.end()) {
+                it->get()->process(action, generateNext(it + 1));
             }
         };
     }
