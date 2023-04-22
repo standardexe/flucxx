@@ -2,7 +2,6 @@ import QtQuick 2.15
 import QtQuick.Controls 2.15
 import QtQuick.Window 2.15
 import Dispatcher 1.0
-import QuickFuture 1.0
 import QmlActions 1.0
 
 Window {

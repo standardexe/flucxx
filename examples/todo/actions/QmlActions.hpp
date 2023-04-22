@@ -5,6 +5,8 @@
 #include "actions/NavigationActions.hpp"
 #include "actions/DialogActions.hpp"
 
+#include <QJSValue>
+
 class QmlActions : public QObject {
     Q_OBJECT
 public:

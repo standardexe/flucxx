@@ -4,7 +4,6 @@
 #include <QObject>
 #include <vector>
 #include <functional>
-#include "QuickFuture"
 #include "middleware.hpp"
 #include "store.hpp"
 

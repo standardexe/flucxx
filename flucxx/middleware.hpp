@@ -3,7 +3,6 @@
 
 #include <QObject>
 #include <QSharedPointer>
-#include "QuickFuture"
 #include "action.hpp"
 
 class Middleware : public QObject, public QEnableSharedFromThis<Middleware> {

@@ -1,12 +1,8 @@
 #ifndef DIALOGMIDDLEWARE_H
 #define DIALOGMIDDLEWARE_H
 
-#include <QDebug>
-#include <QMetaProperty>
 #include <optional>
 #include "flucxx/middleware.hpp"
-#include <QtConcurrent/QtConcurrent>
-#include "asyncfuture.h"
 #include "actions/DialogActions.hpp"
 
 class DialogMiddleware : public Middleware {

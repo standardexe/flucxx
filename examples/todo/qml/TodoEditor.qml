@@ -2,7 +2,6 @@ import QtQuick 2.15
 import QtQuick.Controls 2.15
 import QtQuick.Window 2.15
 import QtQuick.Dialogs 1.3
-import QuickFuture 1.0
 import MainStore 1.0
 import QmlActions 1.0
 import Dispatcher 1.0

@@ -4,7 +4,6 @@
 #include <QObject>
 #include <QString>
 #include <QSharedPointer>
-#include "QuickFuture"
 #include "action.hpp"
 
 class Store : public QObject, public QEnableSharedFromThis<Store> {

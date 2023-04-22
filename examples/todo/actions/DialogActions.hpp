@@ -1,7 +1,6 @@
 #ifndef DIALOGACTIONS_H
 #define DIALOGACTIONS_H
 
-#include <QMetaType>
 #include "flucxx/action.hpp"
 #include "flucxx/dispatcher.hpp"
 
