@@ -1,17 +1,18 @@
 import QtQuick 2.15
 import QtQuick.Controls 2.15
 import QtQuick.Window 2.15
+import QtQuick.Dialogs 1.3
 import QuickFuture 1.0
 import MainStore 1.0
-import Actions 1.0
+import QmlActions 1.0
 import Dispatcher 1.0
 
 Item {
     id: root
 
     Component.onCompleted: {
-        dispatch(Actions.todoCreate("first", false))
-        dispatch(Actions.todoCreate("second", true))
+        dispatch(QmlActions.todoCreate("first", false))
+        dispatch(QmlActions.todoCreate("second", true))
     }
 
     Column {
@@ -48,9 +49,9 @@ Item {
 
                         onClicked: {
                             if (item.done) {
-                                dispatch(Actions.todoDelete(index))
+                                dispatch(QmlActions.todoDelete(index))
                             } else {
-                                dispatch(Actions.todoToggle(index))
+                                dispatch(QmlActions.todoToggle(index))
                             }
                         }
                     }
@@ -84,7 +85,7 @@ Item {
                 text: "Add"
 
                 onClicked: {
-                    dispatch(Actions.todoCreate(input.text, false))
+                    dispatch(QmlActions.todoCreate(input.text, false))
                     input.text = ""
                 }
             }
@@ -93,33 +94,35 @@ Item {
 
         Button {
             text: "About"
-            onClicked: dispatch(Actions.navigateTo("qrc:/About.qml"))
+            onClicked: dispatch(QmlActions.navigateTo("qrc:/About.qml"))
         }
 
         Button {
             text: "Sleep"
             onClicked: {
-                let response = dispatch(Actions.sleep(100))
-                Future.promise(response).then(value => console.log("Response from dispatch:", value))
+                dispatch(QmlActions.sleep(100))
+                  .then(value => console.log("Response from dispatch:", value))
             }
         }
 
         Button {
             text: "Show dialog"
             onClicked: {
-                let result = dispatch(Actions.showDialog("Ein Prompt"))
-                Future.promise(result).then(value => console.log("Dialog response:", value))
+                dispatch(QmlActions.showDialog("Ein Prompt"))
+                  .then(result => console.log("Dialog response:", result))
             }
         }
 
     }
 
     Dialog {
-        anchors.centerIn: root
         visible: MainStore.dialogVisible
-        prompt: MainStore.dialogPrompt
+        title: MainStore.dialogPrompt
+        modality: Qt.ApplicationModal
 
-        onCancel: dispatch(Actions.closeDialog(false))
-        onOk: dispatch(Actions.closeDialog(true))
+        standardButtons: StandardButton.Yes | StandardButton.No
+
+        onNo: dispatch(QmlActions.closeDialog(false))
+        onYes: dispatch(QmlActions.closeDialog(true))
     }
 }

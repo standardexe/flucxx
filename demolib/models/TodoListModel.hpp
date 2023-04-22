@@ -44,6 +44,6 @@ private:
     QList<TodoItem*> mItems;
 };
 
-Q_DECLARE_METATYPE(TodoListModel*)
+REGISTER_METATYPE(TodoListModel)
 
 #endif // TODO_LIST_MODEL_HPP

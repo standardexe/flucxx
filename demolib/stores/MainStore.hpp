@@ -17,35 +17,26 @@ public:
     MainStore() : Store("MainStore") {}
 
     QFuture<QVariant> process(Action* action, std::function<QFuture<QVariant>(Action*)> next) final {
-        if (action->id() == ActionTodoCreate::ID) {
-            auto createAction = static_cast<ActionTodoCreate*>(action);
+        if (auto createAction = action->as<ActionTodoCreate>(); createAction) {
             auto item = new TodoItem(createAction->text(), createAction->done());
             mTodoItems.add(item);
             todoItemsChanged();
         }
-
-        if (action->id() == ActionTodoDelete::ID) {
-            auto deleteAction = static_cast<ActionTodoDelete*>(action);
+        else if (auto deleteAction = action->as<ActionTodoDelete>(); deleteAction) {
             mTodoItems.remove(deleteAction->index());
             todoItemsChanged();
         }
-
-        if (action->id() == ActionTodoToggleDone::ID) {
-            auto toggleAction = static_cast<ActionTodoToggleDone*>(action);
+        else if (auto toggleAction = action->as<ActionTodoToggleDone>(); toggleAction) {
             auto todoItem = mTodoItems.at(toggleAction->index());
             todoItem->setDone(!todoItem->done());
         }
-
-        if (action->id() == ActionShowDialog::ID) {
-            auto dialogAction = static_cast<ActionShowDialog*>(action);
+        else if (auto dialogAction = action->as<ActionShowDialog>(); dialogAction) {
             mDialogPrompt = dialogAction->prompt();
             mDialogVisible = true;
             dialogPromptChanged();
             dialogVisibleChanged();
         }
-
-        if (action->id() == ActionCloseDialog::ID) {
-            auto dialogAction = static_cast<ActionCloseDialog*>(action);
+        else if (auto dialogAction = action->as<ActionCloseDialog>(); dialogAction) {
             mDialogVisible = false;
             dialogVisibleChanged();
         }

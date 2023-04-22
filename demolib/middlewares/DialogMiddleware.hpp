@@ -12,15 +12,13 @@
 class DialogMiddleware : public Middleware {
 public:
     QFuture<QVariant> process(Action* action, std::function<QFuture<QVariant>(Action*)> next) final {
-        if (action->id() == "dialog/show") {
-            ActionShowDialog* showActionDialog = static_cast<ActionShowDialog*>(action);
+        if (auto showActionDialog = action->as<ActionShowDialog>(); showActionDialog) {
             mFuture = AsyncFuture::deferred<QVariant>();
             next(action);
             return mFuture->future();
         }
 
-        if (action->id() == "dialog/close") {
-            ActionCloseDialog* closeActionDialog = static_cast<ActionCloseDialog*>(action);
+        if (auto closeActionDialog = action->as<ActionCloseDialog>(); closeActionDialog) {
             if (mFuture.has_value()) {
                 mFuture.value().complete(closeActionDialog->result());
                 mFuture.reset();

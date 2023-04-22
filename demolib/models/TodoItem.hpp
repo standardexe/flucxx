@@ -1,6 +1,7 @@
 #ifndef MODEL_TODO_HPP
 #define MODEL_TODO_HPP
 
+#include "flucxx/action.hpp"
 #include <QObject>
 #include <QAbstractListModel>
 
@@ -35,6 +36,6 @@ private:
     bool mDone;
 };
 
-Q_DECLARE_METATYPE(TodoItem*)
+REGISTER_METATYPE(TodoItem)
 
 #endif // MODEL_TODO_HPP

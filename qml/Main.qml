@@ -2,7 +2,8 @@ import QtQuick 2.15
 import QtQuick.Controls 2.15
 import QtQuick.Window 2.15
 import Dispatcher 1.0
-import Actions 1.0
+import QuickFuture 1.0
+import QmlActions 1.0
 
 Window {
     id: root
@@ -13,11 +14,11 @@ Window {
     title: qsTr("Hello World")
 
     function dispatch(action) {
-        return Dispatcher.dispatch(action)
+        return Future.promise(action.dispatch(Dispatcher))
     }
 
     Component.onCompleted: {
-        dispatch(Actions.navigateTo("qrc:/TodoEditor.qml"))
+        dispatch(QmlActions.navigateTo("qrc:/TodoEditor.qml"))
     }
 
     Navigator {

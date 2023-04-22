@@ -16,11 +16,13 @@ find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Core Quick)
 
 add_subdirectory(3rdparty/quickfuture/)
 add_subdirectory(flucxx/)
+add_subdirectory(demolib/)
 
 set(PROJECT_SOURCES
         main.cpp
-        qml.qrc
+        qml/qml.qrc
 )
+qt5_add_resources(PROJECT_SOURCES qml/qml.qrc)
 
 qt5_add_resources(PROJECT_SOURCES 3rdparty/quickpromise/qml/quickpromise.qrc)
 
@@ -49,15 +51,11 @@ endif()
 
 target_include_directories(qtquicktest PRIVATE 3rdparty/asyncfuture)
 
-add_subdirectory(models/)
-add_subdirectory(stores/)
-add_subdirectory(actions/)
-add_subdirectory(middlewares/)
-
 target_link_libraries(qtquicktest
   PRIVATE Qt${QT_VERSION_MAJOR}::Core Qt${QT_VERSION_MAJOR}::Quick
   quickfuture
-  flucxx)
+  flucxx
+  demolib)
 
 set_target_properties(qtquicktest PROPERTIES
     MACOSX_BUNDLE_GUI_IDENTIFIER my.example.com

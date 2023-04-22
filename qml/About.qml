@@ -1,6 +1,6 @@
 import QtQuick 2.15
 import QtQuick.Controls 2.15
-import Actions 1.0
+import QmlActions 1.0
 
 Item {
     Column {
@@ -14,7 +14,7 @@ Item {
         Button {
             text: "Back"
             onClicked: {
-                dispatch(Actions.navigateBack())
+                dispatch(QmlActions.navigateBack())
             }
         }
     }

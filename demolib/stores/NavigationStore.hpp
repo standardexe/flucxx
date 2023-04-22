@@ -14,14 +14,11 @@ public:
     NavigationStore() : Store("NavigationStore") {}
 
     QFuture<QVariant> process(Action* action, std::function<QFuture<QVariant>(Action*)> next) final {
-        if (action->id() == ActionNavigatePush::ID) {
-            auto navigateAction = static_cast<ActionNavigatePush*>(action);
+        if (auto navigateAction = action->as<ActionNavigatePush>(); navigateAction) {
             mScreens.push(navigateAction->url());
             screensChanged();
         }
-
-        if (action->id() == ActionNavigatePop::ID) {
-            auto popAction = static_cast<ActionNavigatePop*>(action);
+        else if (auto popAction = action->as<ActionNavigatePop>(); popAction) {
             mScreens.pop();
             screensChanged();
         }
