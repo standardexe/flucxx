@@ -1,0 +1,8 @@
+<RCC>
+    <qresource prefix="/">
+        <file>Gallery.qml</file>
+        <file>Navigator.qml</file>
+        <file>Main.qml</file>
+        <file>Artwork.qml</file>
+    </qresource>
+</RCC>
