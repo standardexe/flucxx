@@ -16,7 +16,7 @@ public:
 
     MainStore() : Store("MainStore") {}
 
-    void process(Action* action, std::function<void(Action*)> next) final {
+    void process(Action* action, Dispatcher*, std::function<void(Action*)> next) final {
         if (auto createAction = action->as<ActionTodoCreate>(); createAction) {
             auto item = new TodoItem(createAction->text(), createAction->done());
             mTodoItems.add(item);

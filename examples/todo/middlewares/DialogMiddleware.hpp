@@ -7,7 +7,7 @@
 
 class DialogMiddleware : public Middleware {
 public:
-    void process(Action* action, std::function<void(Action*)> next) final {
+    void process(Action* action, Dispatcher*, std::function<void(Action*)> next) final {
         if (auto showActionDialog = action->as<ActionShowDialog>(); showActionDialog) {
             mDoneCallback = showActionDialog->onDone();
         }

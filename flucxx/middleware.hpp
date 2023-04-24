@@ -5,12 +5,14 @@
 #include <QSharedPointer>
 #include "action.hpp"
 
+class Dispatcher;
+
 class Middleware : public QObject, public QEnableSharedFromThis<Middleware> {
     Q_OBJECT
 public:
     Middleware() : QObject(nullptr) {}
 
-    virtual void process(Action* action, std::function<void(Action*)> next) = 0;
+    virtual void process(Action* action, Dispatcher* dispatcher, std::function<void(Action*)> next) = 0;
 
 };
 

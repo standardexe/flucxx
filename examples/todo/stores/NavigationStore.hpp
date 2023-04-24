@@ -13,7 +13,7 @@ public:
 
     NavigationStore() : Store("NavigationStore") {}
 
-    void process(Action* action, std::function<void(Action*)> next) final {
+    void process(Action* action, Dispatcher*, std::function<void(Action*)> next) final {
         if (auto navigateAction = action->as<ActionNavigatePush>(); navigateAction) {
             mScreens.push(navigateAction->url());
             screensChanged();

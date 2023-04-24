@@ -30,7 +30,7 @@ private:
             if (it == mMiddlewares.end()) {
                 generateNext(mStores.begin())(action);
             } else {
-                it->get()->process(action, generateNext(it + 1));
+                it->get()->process(action, this, generateNext(it + 1));
             }
         };
     }
@@ -38,7 +38,7 @@ private:
     std::function<void(Action*)> generateNext(QList<QSharedPointer<Store>>::Iterator it) {
         return [this, it](Action* action) {
             if (it != mStores.end()) {
-                it->get()->process(action, generateNext(it + 1));
+                it->get()->process(action, this, generateNext(it + 1));
             }
         };
     }

@@ -8,7 +8,7 @@
 
 class LoggingMiddleware : public Middleware {
 public:
-    void process(Action* action, std::function<void(Action*)> next) final {
+    void process(Action* action, Dispatcher*, std::function<void(Action*)> next) final {
         dumpProperties(action);
         next(action);
     }

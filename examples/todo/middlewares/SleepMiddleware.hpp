@@ -9,7 +9,7 @@
 
 class SleepMiddleware : public Middleware {
 public:
-    void process(Action* action, std::function<void(Action*)> next) final {
+    void process(Action* action, Dispatcher*, std::function<void(Action*)> next) final {
         if (action->id() == "sleep") {
             ActionSleep* sleepAction = static_cast<ActionSleep*>(action);
             QTimer::singleShot(1000, sleepAction->onDone());
