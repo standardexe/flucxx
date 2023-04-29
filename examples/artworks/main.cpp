@@ -29,9 +29,9 @@ int main(int argc, char *argv[]) {
     dispatcher->addMiddleware(galleryMiddleware);
 
     REGISTER_SINGLETON(NavigationStore, navigationStore.get());
-    REGISTER_SINGLETON(Dispatcher, dispatcher.get());
-    REGISTER_SINGLETON(MainStore, mainStore.get());
-    REGISTER_SINGLETON(QmlActions, new QmlActions {});
+    REGISTER_SINGLETON(Dispatcher,      dispatcher.get());
+    REGISTER_SINGLETON(MainStore,       mainStore.get());
+    REGISTER_SINGLETON(QmlActions,      new QmlActions {});
 
     QQmlApplicationEngine engine;
     engine.load("qrc:/Main.qml");

@@ -44,7 +44,6 @@ Q_DECLARE_METATYPE(Callback<int>)
 Q_DECLARE_METATYPE(Callback<QString>)
 Q_DECLARE_METATYPE(Callback<void>)
 
-
 class Action : public QObject {
 public:
     Action(QString id) : mId(id) {}

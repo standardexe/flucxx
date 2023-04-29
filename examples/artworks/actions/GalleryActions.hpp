@@ -23,7 +23,6 @@ public:
     ACTION_PROPERTY(0, int, page);
     ACTION_PROPERTY(1, Callback<bool>, onDone);
     LoadGalleryPageAction(int page, Callback<bool> onDone = {}) : ActionWithMembers(page, onDone) {}
-    Q_INVOKABLE void dispatch(Dispatcher* dispatcher) { dispatcher->dispatch(this); }
 };
 REGISTER_METATYPE(LoadGalleryPageAction)
 
@@ -34,7 +33,6 @@ public:
     static constexpr const char* ID = "gallery/loadPageFinished";
     ACTION_PROPERTY(0, QList<ArtworkModel*>, models);
     GalleryPageLoadFinishedAction(QList<ArtworkModel*> models) : ActionWithMembers(models) {}
-    Q_INVOKABLE void dispatch(Dispatcher* dispatcher) { dispatcher->dispatch(this); }
 };
 REGISTER_METATYPE(GalleryPageLoadFinishedAction)
 
