@@ -8,6 +8,7 @@
 #include <QJsonObject>
 #include <QJsonArray>
 #include <QUrl>
+#include <QMetaEnum>
 
 #include "flucxx/middleware.hpp"
 #include "flucxx/dispatcher.hpp"
@@ -54,6 +55,15 @@ public:
 
                 reply->deleteLater();
             });
+
+            QObject::connect(reply, &QNetworkReply::errorOccurred, [dispatcher, callback = loadGalleryPageAction->onDone()](QNetworkReply::NetworkError err) {
+                auto action = SetErrorAction(true, QtEnumToString(err));
+                dispatcher->dispatch(&action);
+
+                if (callback) {
+                    callback(false);
+                }
+            });
         }
 
         next(action);
@@ -62,6 +72,11 @@ public:
 private:
     std::function<void(bool)> mDoneCallback;
     QNetworkAccessManager mManager;
+
+    template<typename QEnum>
+    static QString QtEnumToString (const QEnum value) {
+      return QMetaEnum::fromType<QEnum>().valueToKey(value);
+    }
 };
 
 #endif // DIALOGMIDDLEWARE_H

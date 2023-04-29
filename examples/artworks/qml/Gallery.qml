@@ -101,6 +101,20 @@ Item {
     }
 
     Rectangle {
+        color: "red"
+        visible: MainStore.hasError
+        width: 150
+        height: 50
+        anchors.right: parent.right
+        anchors.bottom: parent.bottom
+        anchors.margins: 5
+        Label {
+            anchors.centerIn: parent
+            text: MainStore.error
+        }
+    }
+
+    Rectangle {
       color: "white"
       visible: MainStore.loading
       anchors.fill: parent

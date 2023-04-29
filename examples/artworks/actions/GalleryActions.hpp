@@ -5,6 +5,17 @@
 #include "flucxx/dispatcher.hpp"
 #include "models/ArtworkModel.hpp"
 
+struct SetErrorAction : public ActionWithMembers<SetErrorAction, bool, QString> {
+    Q_OBJECT
+public:
+    static constexpr const char* ID = "gallery/setError";
+    ACTION_PROPERTY(0, bool, hasError);
+    ACTION_PROPERTY(1, QString, message);
+    SetErrorAction(bool hasError, QString message) : ActionWithMembers(hasError, message) {}
+};
+REGISTER_METATYPE(SetErrorAction)
+
+
 struct LoadGalleryPageAction : public ActionWithMembers<LoadGalleryPageAction, int, Callback<bool>> {
     Q_OBJECT
 public:

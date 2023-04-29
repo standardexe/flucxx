@@ -21,7 +21,7 @@ int main(int argc, char *argv[]) {
     auto navigationStore    = QSharedPointer<NavigationStore>::create();
 
     auto loggerMiddleware   = QSharedPointer<LoggingMiddleware>::create();
-    auto galleryMiddleware   = QSharedPointer<GalleryMiddleware>::create();
+    auto galleryMiddleware  = QSharedPointer<GalleryMiddleware>::create();
 
     dispatcher->addStore(mainStore);
     dispatcher->addStore(navigationStore);
