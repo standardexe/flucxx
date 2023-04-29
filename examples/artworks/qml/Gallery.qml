@@ -18,11 +18,9 @@ Item {
             rows: 1
 
             Button {
-                width: 100
-                height: parent.height
-                enabled: !MainStore.loading
+                enabled: !MainStore.loading && MainStore.page > 1
                 text: "<-"
-                onClicked: dispatch(QmlActions.loadPage(Math.max(1, MainStore.page - 1)))
+                onClicked: dispatchable(QmlActions.loadPage)(MainStore.page - 1)
             }
 
             Text {
@@ -30,12 +28,10 @@ Item {
             }
 
             Button {
-                width: 100
-                height: parent.height
                 Layout.alignment: Qt.AlignRight
                 enabled: !MainStore.loading
                 text: "->"
-                onClicked: dispatch(QmlActions.loadPage(MainStore.page + 1))
+                onClicked: dispatchable(QmlActions.loadPage)(MainStore.page + 1)
             }
         }
 
@@ -89,7 +85,7 @@ Item {
                 MouseArea {
                     anchors.fill: parent
                     onPressed: gridView.currentIndex = index
-                    onDoubleClicked: dispatch(QmlActions.navigateTo("qrc:/Artwork.qml", { artwork: modelData }))
+                    onDoubleClicked: dispatchable(QmlActions.navigateTo)("qrc:/Artwork.qml", { artwork: modelData })
                 }
             }
 

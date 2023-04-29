@@ -20,7 +20,7 @@ ScrollView {
 
         Button {
             text: "Back"
-            onClicked: dispatch(QmlActions.navigateBack())
+            onClicked: dispatchable(QmlActions.navigateBack)()
         }
     }
 }

@@ -11,13 +11,16 @@ Window {
     visible: true
     title: qsTr("Artwork Gallery")
 
-    function dispatch(action) {
-        action.dispatch(Dispatcher)
+    function dispatchable(f) {
+        return f.bind(this, Dispatcher)
     }
 
     Component.onCompleted: {
-        dispatch(QmlActions.loadPage(1))
-        dispatch(QmlActions.navigateTo("qrc:/Gallery.qml", {}))
+        dispatchable(QmlActions.loadPage)(1)
+            .then((success) => console.log("DONE LOADING PAGE 1. Result: ", success))
+            .catch((err) => console.log("ERROR LOADING PAGE1: ", err))
+
+        dispatchable(QmlActions.navigateTo)("qrc:/Gallery.qml", {})
     }
 
     Navigator {
