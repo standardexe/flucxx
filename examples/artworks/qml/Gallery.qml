@@ -56,16 +56,14 @@ Item {
                     topPadding: 20
                     width: parent.width
 
-                    Rectangle {
+                    Image {
                         anchors.horizontalCenter: parent.horizontalCenter
                         width: gridView.cellWidth / 3
                         height: gridView.cellHeight / 3
 
-                        Image {
-                            anchors.fill: parent
-                            source: modelData.thumbnail
-                            fillMode: Image.PreserveAspectFit
-                        }
+                        source: modelData.thumbnail
+                        fillMode: Image.PreserveAspectFit
+
                         Image {
                             anchors.fill: parent
                             source: modelData.imageUrl
@@ -74,9 +72,9 @@ Item {
                     }
 
                     Text {
-                        text: modelData.title + " [" + modelData.artist + "]"
                         width: parent.width
                         height: 40
+                        text: modelData.title + " [" + modelData.artist + "]"
                         wrapMode: Text.WordWrap
                         elide: Text.ElideRight
                     }
@@ -91,8 +89,6 @@ Item {
 
             highlight: Rectangle { color: "lightsteelblue" }
             highlightMoveDuration: 0
-
-            focus: true
         }
     }
 

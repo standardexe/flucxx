@@ -18,7 +18,7 @@ Window {
     Component.onCompleted: {
         dispatchable(QmlActions.loadPage)(1)
             .then((success) => console.log("DONE LOADING PAGE 1. Result: ", success))
-            .catch((err) => console.log("ERROR LOADING PAGE1: ", err))
+            .catch((err) => console.log("ERROR LOADING PAGE 1: ", err))
 
         dispatchable(QmlActions.navigateTo)("qrc:/Gallery.qml", {})
     }
