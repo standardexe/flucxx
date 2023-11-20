@@ -82,17 +82,11 @@ private:
     }
 
     void loadPage(Dispatcher* dispatcher, std::function<void(bool)> actionCallback) {
-        QNetworkRequest request {
+        QNetworkReply *reply = mManager.get(QNetworkRequest {
             QUrl("https://api.artic.edu/api/v1/artworks?limit=15&page=" + QString::number(mPage))
-        };
-
-        QNetworkReply *reply = mManager.get(request);
-
-        QObject::connect(reply, &QNetworkReply::sslErrors, [reply](const QList<QSslError> &errors) {
-            reply->ignoreSslErrors();
         });
 
-        QObject::connect(reply, &QNetworkReply::finished, [this, reply, callback = actionCallback, dispatcher]() {
+        QObject::connect(reply, &QNetworkReply::finished, [this, reply, actionCallback, dispatcher]() {
             QJsonDocument doc   = QJsonDocument::fromJson(reply->readAll());
             QJsonObject config  = doc.object().value("config").toObject();
             QJsonArray data     = doc.object().value("data").toArray();
@@ -109,28 +103,20 @@ private:
                 artworks.append(new ArtworkModel {title, artistTitle, thumbnail, imageUrl});
             }
 
-            auto action = GalleryPageLoadFinishedAction(artworks);
-            dispatcher->dispatch(&action);
-
-            if (callback) {
-                callback(true);
-            }
+            dispatcher->dispatch(GalleryPageLoadFinishedAction(artworks));
+            if (actionCallback) actionCallback(true);
 
             reply->deleteLater();
         });
 
-        QObject::connect(reply, &QNetworkReply::errorOccurred, [dispatcher, callback = actionCallback](QNetworkReply::NetworkError err) {
-            auto action = SetErrorAction(true, QtEnumToString(err));
-            dispatcher->dispatch(&action);
-
-            if (callback) {
-                callback(false);
-            }
+        QObject::connect(reply, &QNetworkReply::errorOccurred, [dispatcher, actionCallback](QNetworkReply::NetworkError err) {
+            dispatcher->dispatch(SetErrorAction(true, QtEnumToString(err)));
+            if (actionCallback) actionCallback(false);
         });
     }
 
     template<typename QEnum>
-    static QString QtEnumToString (const QEnum value) {
+    static QString QtEnumToString(const QEnum value) {
       return QMetaEnum::fromType<QEnum>().valueToKey(value);
     }
 };

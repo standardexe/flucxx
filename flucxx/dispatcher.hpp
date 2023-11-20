@@ -24,6 +24,10 @@ public:
         generateNext(mMiddlewares.begin())(action);
     }
 
+    void dispatch(Action&& action) {
+        generateNext(mMiddlewares.begin())(&action);
+    }
+
 private:
     std::function<void(Action*)> generateNext(QList<QSharedPointer<Middleware>>::Iterator it) {
         return [this, it](Action* action) {
