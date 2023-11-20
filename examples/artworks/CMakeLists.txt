@@ -5,7 +5,6 @@ set(PROJECT_SOURCES
         actions/NavigationActions.hpp
         actions/QmlActions.hpp
 
-        middlewares/GalleryMiddleware.hpp
         middlewares/LoggingMiddleware.hpp
 
         models/NavigationModel.hpp

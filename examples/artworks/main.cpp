@@ -9,7 +9,6 @@
 #include "stores/NavigationStore.hpp"
 #include "actions/QmlActions.hpp"
 #include "middlewares/LoggingMiddleware.hpp"
-#include "middlewares/GalleryMiddleware.hpp"
 
 int main(int argc, char *argv[]) {
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
@@ -21,12 +20,10 @@ int main(int argc, char *argv[]) {
     auto navigationStore    = QSharedPointer<NavigationStore>::create();
 
     auto loggerMiddleware   = QSharedPointer<LoggingMiddleware>::create();
-    auto galleryMiddleware  = QSharedPointer<GalleryMiddleware>::create();
 
     dispatcher->addStore(mainStore);
     dispatcher->addStore(navigationStore);
     dispatcher->addMiddleware(loggerMiddleware);
-    dispatcher->addMiddleware(galleryMiddleware);
 
     REGISTER_SINGLETON(NavigationStore, navigationStore.get());
     REGISTER_SINGLETON(Dispatcher,      dispatcher.get());
