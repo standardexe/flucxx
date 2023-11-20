@@ -3,30 +3,10 @@
 
 #include "actions/GalleryActions.hpp"
 #include "actions/NavigationActions.hpp"
+#include "flucxx/promise.hpp"
 
 #include <QJSValue>
 #include <QJSEngine>
-
-
-class PromiseCallback : public QObject {
-    Q_OBJECT
-public:
-    Q_INVOKABLE void callback(QJSValue resolve, QJSValue reject) {
-      mResolve = resolve;
-      mReject = reject;
-    }
-
-    template<typename ...T>
-    void resolve(T... args) { mResolve.call({args...}); deleteLater(); }
-
-    template<typename ...T>
-    void reject(T... args) { mReject.call({args...}); deleteLater(); }
-
-private:
-    QJSValue mResolve;
-    QJSValue mReject;
-};
-
 
 class QmlActions : public QObject {
     Q_OBJECT
@@ -34,7 +14,7 @@ public:
     QmlActions() = default;
 
     Q_INVOKABLE QJSValue loadPage(Dispatcher* dispatcher, int page) {
-        auto promise = createPromise();
+        auto promise = PromiseCallback::createPromise(qjsEngine(this));
 
         auto action = LoadGalleryPageAction(page, [promiseCallback = std::get<1>(promise)](bool success) {
             if (success) {
@@ -42,6 +22,7 @@ public:
             } else {
               promiseCallback->reject(success);
             }
+            promiseCallback->deleteLater();
         });
 
         dispatcher->dispatch(&action);
@@ -59,14 +40,6 @@ public:
         dispatcher->dispatch(&action);
     }
 
-private:
-    std::tuple<QJSValue, PromiseCallback*> createPromise() {
-        PromiseCallback* promiseCallback = new PromiseCallback;
-        QJSValue callbackObject = qjsEngine(this)->newQObject(promiseCallback);
-        QJSValue promiseFunction = qjsEngine(this)->evaluate("(function(callbackObject) { return new Promise(callbackObject.callback) })");
-        QJSValue promise = promiseFunction.call({callbackObject});
-        return { promise, promiseCallback };
-    }
 };
 
 #endif // QML_ACTIONS_HPP
