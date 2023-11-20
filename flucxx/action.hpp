@@ -22,6 +22,8 @@
     qmlRegisterSingletonInstance(#type, 1, 0, #type, variable);
 
 
+// No way around passing the type. The moc is not smart enough
+// to figure out decltype(...) shenanigans on its own.
 #define ACTION_PROPERTY(index, type, name)        \
     Q_PROPERTY(type name READ name)               \
     type name() const { return get<index>(); }
