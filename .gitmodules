@@ -1,9 +1,0 @@
-[submodule "3rdparty/quickfuture"]
-	path = 3rdparty/quickfuture
-	url = https://github.com/benlau/quickfuture.git
-[submodule "3rdparty/quickpromise"]
-	path = 3rdparty/quickpromise
-	url = https://github.com/benlau/quickpromise.git
-[submodule "3rdparty/asyncfuture"]
-	path = 3rdparty/asyncfuture
-	url = https://github.com/benlau/asyncfuture.git
